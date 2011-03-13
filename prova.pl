@@ -9,7 +9,7 @@ use Graphics::Potrace ();
 use Graphics::Potrace::Bitmap ();
 
 my $bitmap = Graphics::Potrace::Bitmap->new();
-$bitmap->import_ascii( <<'END_OF_FIGURE' );
+$bitmap->load(Ascii => text => <<'END_OF_FIGURE' );
   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXX                         XXXXXXXXXXX
@@ -33,23 +33,27 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
                 XXXXXXXXXXXXXXXXXXXXXXXXXX   
             XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  
-           XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx 
+           XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx   
           XXXXXXXXX
          XXXXXXXXX
          XXXXXXXXXX
-         XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  
-         XXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxx 
-         XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+         XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   
+         XXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxx  
+         XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX    
          XXXXXXXXXX     
          XXXXXXXXXX     
          XXXXXXXXXX     
          XXXXXXXXXX     
          XXXXXXXXXX     
-         XXXXXXXXXX     
+.........XXXXXXXXXX     
+  
+......  
 END_OF_FIGURE
 
-$bitmap->trim(100, 100);
-print {*STDERR} Dumper($bitmap);
+#$bitmap->trim(100, 100);
+#$bitmap->reverse();
+$bitmap->trim();
+#print {*STDERR} Dumper($bitmap);
 
 for my $line (reverse @{$bitmap->{_bitmap}}) {
    my @line = map { sprintf '%032b', $_ } @$line;
@@ -58,34 +62,9 @@ for my $line (reverse @{$bitmap->{_bitmap}}) {
    print {*STDERR} "$out\n";
 }
 
-print {*STDERR} Dumper($bitmap);
-
 my $vector = $bitmap->trace( turdsize => 0 );
-print {*STDERR} Dumper($vector);
 
 my @groups = @{$vector->{list}};
 print {*STDERR} "${\ scalar @groups} groups of segments\n";
 
-print "%!PS-Adobe-3.0 EPSF-3.0\n";
-printf "%%%%BoundingBox: 0 0 %d %d\n", $bitmap->width(), $bitmap->height();
-while (@groups) {
-   my $group = shift @groups;
-   my $curve = $group->{curve};
-   printf "%lf %lf moveto\n", @{$curve->[0]{begin}};
-   for my $segment (@$curve) {
-      if ($segment->{type} eq 'bezier') {
-         printf "%lf %lf %lf %lf %lf %lf curveto\n",
-            @{$segment->{u}},
-            @{$segment->{w}},
-            @{$segment->{end}};
-      }
-      else {
-         printf "%lf %lf lineto\n", @{$segment->{corner}};
-         printf "%lf %lf lineto\n", @{$segment->{end}};
-      }
-   }
-   print "0 setgray fill\n"
-      if (!@groups) || ($groups[0]{sign} eq '+');
-}
-print "gsave\n";
-print "grestore\n%EOF\n";
+$vector->save(Eps => file => 'prova.eps', height => $bitmap->height(), width => $bitmap->width());

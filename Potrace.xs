@@ -263,3 +263,12 @@ gp_version()
       RETVAL = potrace_version();
    OUTPUT:
       RETVAL
+
+SV *
+gp__trace(param, bitmap)
+   SV *param
+   SV *bitmap
+   CODE:
+      RETVAL = _trace((HV *)SvRV(param), (HV *)SvRV(bitmap));
+   OUTPUT:
+      RETVAL
