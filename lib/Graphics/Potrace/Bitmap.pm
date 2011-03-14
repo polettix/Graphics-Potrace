@@ -177,13 +177,33 @@ sub reverse {
    return $self;
 }
 
+sub dwim_load {
+   my ($self, $source) = @_;
+   if (! ref $source) {
+      return $self->load(Ascii => file => $source)
+         if ($source !~ /\n/) && (-e $source);
+      return $self->load(Ascii => text => $source);
+   }
+   elsif (ref($source) eq 'GLOB') {
+      return $self->load(Ascii => fh => $source);
+   }
+   else {
+      croak "unsupported source $source for dwim_load()";
+   }
+}
+
 sub load {
+   my $self = shift;
+   $self->create_loader(@_)->load($self);
+   return $self;
+}
+
+sub create_loader {
    my ($self, $type, @parameters) = @_;
    my $package = __PACKAGE__ . '::' . ucfirst($type);
    (my $filename = $package) =~ s{::}{/}mxsg;
    require $filename . '.pm';
-   $package->can('load')->($self, @parameters);
-   return $self;
+   return $package->new(@parameters);
 }
 
 sub import_ascii {

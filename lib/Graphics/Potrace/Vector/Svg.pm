@@ -1,4 +1,4 @@
-package Graphics::Potrace::Vector::Eps;
+package Graphics::Potrace::Vector::Svg;
 
 use strict;
 use Carp;
@@ -58,15 +58,19 @@ sub save {
    my $fh = $self->fh();
 
    # Header
-   print {$fh} "%!PS-Adobe-3.0 EPSF-3.0\n";
-   printf {$fh} "%%%%BoundingBox: 0 0 %d %d\n",
-      $self->{width}, $self->{height};
+   my $header_template = <<'END_OF_HEADER';
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="%d" height="%d" version="1.1" xmlns="http://www.w3.org/2000/svg">
+END_OF_HEADER
+   printf {$fh} $header_template, $self->{width}, $self->{height};
 
    # Every vector
    $self->_save_core($fh, $_) for @_;
 
    # Footer
-   print {$fh} "%EOF\n";
+   print {$fh} "</svg>\n";
 
    return;
 } ## end sub save
@@ -74,37 +78,36 @@ sub save {
 sub _save_core {
    my ($self, $fh, $vector) = @_;
 
-   my $colorline = exists $vector->{color}
-      ? sprintf("%.4f %.4f %.4f setrgbcolor fill\n", @{$vector->{color}})
-      : "0 setgray fill\n";
+   printf {$fh} "<g style=\"fill:%s;stroke:none\" transform=\"matrix(1, 0, 0, -1, 0, %d)\">\n",
+      $vector->{color} || 'black', $self->{height};
+#   printf {$fh} "<g style=\"fill:%s;stroke:none\">\n",
+#      $vector->{color} || 'black';
 
    my @groups      = @{$vector->{list}};
    my $closed_path = 1;
    while (@groups) {
       my $group = shift @groups;
       my $curve = $group->{curve};
-      print {$fh} "newpath\n" if $closed_path;
-      printf {$fh} "%lf %lf moveto\n", @{$curve->[0]{begin}};
+      print {$fh} "<path d=\"\n" if $closed_path;
+      printf {$fh} "   M %lf %lf\n", @{$curve->[0]{begin}};
       for my $segment (@$curve) {
          if ($segment->{type} eq 'bezier') {
-            printf {$fh} "%lf %lf %lf %lf %lf %lf curveto\n",
+            printf {$fh} "   C %lf %lf %lf %lf %lf %lf\n",
               @{$segment->{u}},
               @{$segment->{w}},
               @{$segment->{end}};
          } ## end if ($segment->{type} eq...
          else {
-            printf {$fh} "%lf %lf lineto\n", @{$segment->{corner}};
-            printf {$fh} "%lf %lf lineto\n", @{$segment->{end}};
+            printf {$fh} "   L %lf %lf\n", @{$segment->{corner}};
+            printf {$fh} "   L %lf %lf\n", @{$segment->{end}};
          }
       } ## end for my $segment (@$curve)
+      print {$fh} "   z\n";
       $closed_path = (!@groups) || ($groups[0]{sign} eq '+');
-      if ($closed_path) {
-         print {$fh} "closepath\n";
-         print {$fh} "gsave\n";
-         print {$fh} $colorline;
-         print {$fh} "grestore\n";
-      } ## end if ($closed_path)
+      print {$fh} "\" />" if $closed_path;
    } ## end while (@groups)
+
+   print {$fh} "</g>\n";
 
    return $vector;
 } ## end sub save_core

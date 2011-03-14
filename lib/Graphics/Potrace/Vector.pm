@@ -9,13 +9,19 @@ sub new {
 }
 
 sub save {
+   my $self = shift;
+   $self->create_saver(@_)->save($self);
+   return $self;
+} ## end sub save
+
+sub create_saver {
    my ($self, $type, @parameters) = @_;
    my $package = __PACKAGE__ . '::' . ucfirst($type);
    (my $filename = $package) =~ s{::}{/}mxsg;
-   require $filename . '.pm';
-   $package->can('save')->($self, @parameters);
-   return $self;
-} ## end sub save
+   $filename .= '.pm';
+   require $filename;
+   return $package->new(@parameters);
+}
 
 1;
 __END__
