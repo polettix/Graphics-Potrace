@@ -6,8 +6,8 @@ extends 'Dist::Zilla::Plugin::MakeMaker::Awesome';
 override _build_WriteMakefile_args => sub {
    return {
       %{super()},
-      INC => '',
-      LIBS => [],
+      INC => '-I/opt/local/include',
+      LIBS => ['-L/opt/local/lib -lpotrace'],
    };
 };
 

@@ -179,6 +179,7 @@ sub reverse {
 
 sub dwim_load {
    my ($self, $source) = @_;
+   $self = $self->new() unless ref $self;
    if (! ref $source) {
       return $self->load(Ascii => file => $source)
          if ($source !~ /\n/) && (-e $source);
@@ -187,13 +188,18 @@ sub dwim_load {
    elsif (ref($source) eq 'GLOB') {
       return $self->load(Ascii => fh => $source);
    }
+   elsif (ref($source) eq 'ARRAY') {
+      return $self->load(@$source);
+   }
    else {
       croak "unsupported source $source for dwim_load()";
    }
+   return $self;
 }
 
 sub load {
    my $self = shift;
+   $self = $self->new() unless ref $self;
    $self->create_loader(@_)->load($self);
    return $self;
 }
@@ -256,9 +262,8 @@ sub trim {
 
 sub trace {
    my $self = shift;
-   my $config = ref $_[0] ? $_[0] : {@_};
    require Graphics::Potrace;
-   return Graphics::Potrace::trace($config, $self);
+   return Graphics::Potrace::bitmap2vector($self, @_);
 } ## end sub trace
 
 1;
