@@ -4,15 +4,15 @@ package Graphics::Potrace;
 
 use strict;
 use warnings;
-use English qw( -no_match_vars );
-use Scalar::Util qw( blessed );
-use Carp;
-use Graphics::Potrace::Bitmap;
-use Graphics::Potrace::Vector;
+use English qw< -no_match_vars >;
+use Scalar::Util qw< blessed >;
+use Carp qw< croak >;
+use Graphics::Potrace::Bitmap qw<>;
+use Graphics::Potrace::Vector qw<>;
 
 use Exporter qw( import );
 {
-   our @EXPORT_OK   = qw< trace bitmap bitmap2vector >;
+   our @EXPORT_OK   = qw< bitmap bitmap2vector trace >;
    our @EXPORT      = ();
    our %EXPORT_TAGS = (all => \@EXPORT_OK);
 }
@@ -23,7 +23,7 @@ $VERSION ||= '0.1.0';
 XSLoader::load('Graphics::Potrace', $VERSION);
 
 sub bitmap {
-   return $_[0] # return if already a bitmap... it might happen :)
+   return $_[0]    # return if already a bitmap... it might happen :)
      if @_
         && ref($_[0])
         && blessed($_[0])
