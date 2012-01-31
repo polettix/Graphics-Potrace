@@ -57,7 +57,7 @@ sub trace {
    $vector->height($bitmap->height());
 
    # Save if so requested
-   $vector->save(@{$args{vector}}) if exists $args{vector};
+   $vector->export(@{$args{vector}}) if exists $args{vector};
 
    # Return vector anyway
    return $vector;
@@ -82,9 +82,9 @@ __END__
    ..........................
    ');
    my $vector = $bitmap->trace();
-   $vector->save(Svg => file    => 'example.svg');
-   $vector->save(Svg => fh      => \*STDOUT);
-   $vector->save(Svg => textref => \my $svg_dump);
+   $vector->export(Svg => file    => 'example.svg');
+   $vector->export(Svg => fh      => \*STDOUT);
+   $vector->export(Svg => textref => \my $svg_dump);
 
    # All in one facility
    use Graphics::Potrace qw< trace >;
@@ -168,15 +168,25 @@ C<libpotrace> 1.10 and supports the following parameters:
 
 =over
 
-=item turdsize
+=item *
 
-=item turnpolicy
+turdsize
 
-=item opticurve
+=item *
 
-=item alphamax
+turnpolicy
 
-=item opttolerance
+=item *
+
+opticurve
+
+=item *
+
+alphamax
+
+=item *
+
+opttolerance
 
 =back
 
@@ -217,14 +227,14 @@ This parameter is mandatory.
 
 =item C<vector>
 
-a description of what you want to do with the vector, e.g. save it
+a description of what you want to do with the vector, e.g. export it
 or get a representation. If present, this parameter is expected to be
 an array reference containing parameters for
-L<Graphics::Potrace::Vector/save>, see there for details.
+L<Graphics::Potrace::Vector/export>, see there for details.
 
 This parameter is optional.
 
-=item all Potrace parameters supported by L</bitmap2trace>
+=item I<< all Potrace parameters supported by L</bitmap2trace> >>
 
 these parameters will be passed over to C<bitmap2trace>, they are all
 optional.
@@ -240,5 +250,3 @@ This function returns the version of the Potrace library.
 =head1 SEE ALSO
 
 See L<http://potrace.sourceforge.net/> for Potrace - it's awesome!
-
-

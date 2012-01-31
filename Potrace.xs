@@ -226,6 +226,8 @@ SV *_trace (HV *parameters, HV *bitmap) {
    retvalHV = newHV();
    hv_store(retvalHV, "list", 4, _make_listpath(state->plist), FALSE);
    hv_store(retvalHV, "tree", 4, _make_treepath(state->plist), FALSE);
+   hv_store(retvalHV, "width", 5, newSVsv(*hv_fetch(bitmap, "width", 5, FALSE)), FALSE);
+   hv_store(retvalHV, "height", 6, newSVsv(*hv_fetch(bitmap, "height", 6, FALSE)), FALSE);
    retval = newRV_noinc((SV *)retvalHV);
    retvalHV = NULL;
 
