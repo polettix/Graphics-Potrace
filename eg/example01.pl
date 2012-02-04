@@ -18,7 +18,7 @@ my @vectors = map {
    $bitmap->trace();
 } @ARGV;
 
-my $saver = Graphics::Potrace::Vector->create_exporter(
+my $saver = Graphics::Potrace::Vectorial->create_exporter(
    'Svg',
    fh     => \*STDOUT,
    height => $height,

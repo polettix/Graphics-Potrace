@@ -1,4 +1,4 @@
-package Graphics::Potrace::Vector::Eps;
+package Graphics::Potrace::Vectorial::Eps;
 
 # ABSTRACT: Encapsulated Postscript exporter for Graphics::Potrace
 
@@ -7,7 +7,7 @@ use Carp;
 use English qw( -no_match_vars );
 
 use Moo;
-extends 'Graphics::Potrace::Vector::Exporter';
+extends 'Graphics::Potrace::Vectorial::Exporter';
 
 sub save {
    my ($self, $vector) = @_;
@@ -70,12 +70,12 @@ __END__
 
 =head1 DESCRIPTION
 
-L<Graphics::Potrace::Vector::Exporte> derived class to provide export
+L<Graphics::Potrace::Vectorial::Exporte> derived class to provide export
 facilities to Encapsulated Postscript.
 
 =head1 INTERFACE
 
 =head2 B<< save >>
 
-Overrides L<Graphics::Potrace::Vector::Exporter/save> method to provide
+Overrides L<Graphics::Potrace::Vectorial::Exporter/save> method to provide
 something useful.
