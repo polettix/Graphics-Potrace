@@ -1,4 +1,4 @@
-package Graphics::Potrace::Bitmap::Packed;
+package Graphics::Potrace::Raster::Packed;
 
 use strict;
 use warnings;

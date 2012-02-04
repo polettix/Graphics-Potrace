@@ -7,11 +7,11 @@ $Data::Dumper::Indent = 1;
 
 use lib qw( lib blib/lib blib/arch );
 use Graphics::Potrace         ();
-use Graphics::Potrace::Bitmap ();
+use Graphics::Potrace::Raster ();
 
 my ($width, $height) = (0, 0);
 my @vectors = map {
-   my $bitmap = Graphics::Potrace::Bitmap->new();
+   my $bitmap = Graphics::Potrace::Raster->new();
    $bitmap->dwim_load($_);
    $width = $bitmap->width() if $width < $bitmap->width();
    $height = $bitmap->height() if $height < $bitmap->height();

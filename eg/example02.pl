@@ -10,7 +10,7 @@ use lib qw( ../lib );
 use Graphics::Potrace qw< trace >;
 
 my $vector = trace(
-   bitmap => [
+   raster => [
       Ascii => text => '
 
                            oo"""""""MM
@@ -37,5 +37,5 @@ my $vector = trace(
 
 '
    ],
-   vector => ['Svg', fh => \*STDOUT]
+   vectorial => ['Svg', fh => \*STDOUT]
 );
