@@ -1,4 +1,4 @@
-package Graphics::Potrace::Vector::Exporter;
+package Graphics::Potrace::Vectorial::Exporter;
 
 # ABSTRACT: vectorial exporter base class for Graphics::Potrace
 
@@ -98,7 +98,7 @@ __END__
 
 This is a base class for building up vector exporters. One example
 of using this base class is shipped directly in the distribution
-as L<Graphics::Potrace::Vector::Svg>.
+as L<Graphics::Potrace::Vectorial::Svg>.
 
 You only need override one of two methods in order to implement your
 exporter: either L</render> or L</save>. Both receive a list of vectors
@@ -121,7 +121,7 @@ outer element).
 Exporters deriving from this base class accept two different parameters
 for setting where the export can be performed: L</fh> and L</file>. So
 you will always be able to call
-L<Graphics::Potrace::Vector/create_exporter> like this:
+L<Graphics::Potrace::Vectorial/create_exporter> like this:
 
    my $e1 = $vector->create_exporter($type, file => $filename);
    my $e2 = $vector->create_exporter($type, file => \my $text);
@@ -134,7 +134,7 @@ L<Graphics::Potrace::Vector/create_exporter> like this:
    my ($width, $height) = $exporter->boundaries(@vectors);
 
 This function returns the maximum width and height across the list of
-provided vectors. These should be L<Graphics::Potrace::Vector> elements,
+provided vectors. These should be L<Graphics::Potrace::Vectorial> elements,
 but anything providing both C<width> and C<height> methods will do.
 
 =head2 B<< clear_file >>
@@ -202,7 +202,7 @@ be automatically populated in case there is a file (see L</has_file>
 and L</file>). This means that C<has_fh> might return different values
 depending on the evolution:
 
-   my $e = Graphics::Potrace::Vector::Exporter->new();
+   my $e = Graphics::Potrace::Vectorial::Exporter->new();
    print "has it!\n" if $e->has_fh(); # does NOT print
    $e->file('/dev/null');
    print "has it!\n" if $e->has_fh(); # does NOT print, again
@@ -211,7 +211,7 @@ depending on the evolution:
 
 =head2 B<< new >>
 
-   my $e = Graphics::Potrace::Vector::Exporter->new(%args);
+   my $e = Graphics::Potrace::Vectorial::Exporter->new(%args);
 
 Constructor, input arguments can be C<file> and C<fh> passed in a key-value
 style.

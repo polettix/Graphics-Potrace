@@ -1,4 +1,4 @@
-package Graphics::Potrace::Vector;
+package Graphics::Potrace::Vectorial;
 
 # ABSTRACT: vectorial manipulator for Graphics::Potrace
 
@@ -62,7 +62,7 @@ __END__
 
 =head1 SYNOPSIS
 
-   # See Graphics::Potrace for ways of obtaining a G::P::Vector
+   # See Graphics::Potrace for ways of obtaining a G::P::Vectorial
 
    # Get a Svg representation in a scalar variable
    my $svg = $vector->render('Svg');
@@ -94,8 +94,8 @@ __END__
 
 =head1 DESCRIPTION
 
-Vector representation and manipulator, obtained as the result of the
-tracing activity. As such, L<Graphics::Potrace::Vector> objects should
+Vectorial representation and manipulator, obtained as the result of the
+tracing activity. As such, L<Graphics::Potrace::Vectorial> objects should
 be regarded mostly as read-only ones, but you can fiddle with them
 if you need to.
 
@@ -107,11 +107,11 @@ exporters:
 
 =item *
 
-L<Graphics::Potrace::Vector::Eps>, for Encapsulated Postscript
+L<Graphics::Potrace::Vectorial::Eps>, for Encapsulated Postscript
 
 =item *
 
-L<Graphics::Potrace::Vector::Svg>, for Standard Vector Graphics
+L<Graphics::Potrace::Vectorial::Svg>, for Standard Vectorial Graphics
 
 =back
 
@@ -120,9 +120,9 @@ do this:
 
    $vector->export(Svg => file => 'foo.svg');
 
-Both L<Graphics::Potrace::Vector::Eps> and
-L<Graphics::Potrace::Vector::Svg> derive from
-L<Graphics::Potrace::Vector::Exporter>; other exporters deriving from
+Both L<Graphics::Potrace::Vectorial::Eps> and
+L<Graphics::Potrace::Vectorial::Svg> derive from
+L<Graphics::Potrace::Vectorial::Exporter>; other exporters deriving from
 it will support at least C<file> and C<fh> parameters in order to allow
 you to do this:
 
@@ -151,8 +151,8 @@ rendering that you need.
 Factory (class) method to generate an exporter of the suitable C<$type>.
 C<@args> are passed over to the constructor of the relevant class.
 
-The class is searched as C<Graphics::Potrace::Vector::$type> and will
-arguably be a derivate class of L<Graphics::Potrace::Vector::Exporter>.
+The class is searched as C<Graphics::Potrace::Vectorial::$type> and will
+arguably be a derivate class of L<Graphics::Potrace::Vectorial::Exporter>.
 
 =head2 export
 

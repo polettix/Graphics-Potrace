@@ -8,7 +8,7 @@ use English qw< -no_match_vars >;
 use Scalar::Util qw< blessed >;
 use Carp qw< croak >;
 use Graphics::Potrace::Bitmap qw<>;
-use Graphics::Potrace::Vector qw<>;
+use Graphics::Potrace::Vectorial qw<>;
 
 use Exporter qw( import );
 {
@@ -40,7 +40,7 @@ sub bitmap2vector {
    {
       $params{$field} = $args{$field} if exists $args{$field};
    }
-   return Graphics::Potrace::Vector->new(
+   return Graphics::Potrace::Vectorial->new(
       _trace(\%params, $bitmap->packed()));
 } ## end sub bitmap2vector
 
@@ -231,7 +231,7 @@ This parameter is mandatory.
 a description of what you want to do with the vector, e.g. export it
 or get a representation. If present, this parameter is expected to be
 an array reference containing parameters for
-L<Graphics::Potrace::Vector/export>, see there for details.
+L<Graphics::Potrace::Vectorial/export>, see there for details.
 
 This parameter is optional.
 
