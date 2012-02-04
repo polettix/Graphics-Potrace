@@ -82,9 +82,10 @@ __END__
    ..........................
    ');
    my $vector = $bitmap->trace();
-   $vector->export(Svg => file    => 'example.svg');
-   $vector->export(Svg => fh      => \*STDOUT);
-   $vector->export(Svg => textref => \my $svg_dump);
+   $vector->export(Svg => file => 'example.svg');
+   $vector->export(Svg => file => \my $svg_dump);
+   $vector->export(Svg => fh   => \*STDOUT);
+   my $eps = $vector->render('Eps');
 
    # All in one facility
    use Graphics::Potrace qw< trace >;
@@ -119,7 +120,7 @@ __END__
       ..........................
       ',
    );
-   # you know what to do from here...
+   # you know what to do with $bitmap - see above!
 
 =head1 DESCRIPTION
 

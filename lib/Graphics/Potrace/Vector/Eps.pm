@@ -1,5 +1,7 @@
 package Graphics::Potrace::Vector::Eps;
 
+# ABSTRACT: Encapsulated Postscript exporter for Graphics::Potrace
+
 use strict;
 use Carp;
 use English qw( -no_match_vars );
@@ -65,3 +67,15 @@ sub _save_core {
 
 1;
 __END__
+
+=head1 DESCRIPTION
+
+L<Graphics::Potrace::Vector::Exporte> derived class to provide export
+facilities to Encapsulated Postscript.
+
+=head1 INTERFACE
+
+=head2 B<< save >>
+
+Overrides L<Graphics::Potrace::Vector::Exporter/save> method to provide
+something useful.
