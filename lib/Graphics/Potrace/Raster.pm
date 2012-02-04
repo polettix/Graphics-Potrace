@@ -1,4 +1,4 @@
-package Graphics::Potrace::Bitmap;
+package Graphics::Potrace::Raster;
 use strict;
 use warnings;
 use English qw( -no_match_vars );
