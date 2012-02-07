@@ -5,45 +5,15 @@ use warnings;
 use Carp;
 use English qw( -no_match_vars );
 
+use Moo;
 
-sub new {
-   my $package = shift;
-   my $self = { ref $_[0] ? %{$_[0]} : @_ };
-   $self->{empty_tester} ||= qr{[. 0]};
-   return bless $self, $package;
-}
+extends 'Graphics::Potrace::Raster::Importer';
 
-sub _reset_io {
-   my $self = shift;
-   delete $self->{$_} for qw( fh file textref );
-   return $self;
-}
+has empty_tester => (
+   is => 'rw',
+   default => sub { qr{[. 0]} },
+);
 
-sub _accessor {
-   my $self = shift;
-   my $name = shift;
-   if (@_) {
-      $self->_reset_io();
-      $self->{$name} = shift;
-   }
-   return $self->{$name};
-}
-
-sub file {
-   my $self = shift;
-   return $self->_accessor(file => @_);
-}
-
-sub text {
-   my $self = shift;
-   return $self->_accessor(text => @_);
-}
-
-sub empty_tester {
-   my $self = shift;
-   $self->{empty_tester} = shift if @_;
-   return $self->{empty_tester};
-}
 
 sub fh {
    my $self = shift;
