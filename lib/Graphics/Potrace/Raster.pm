@@ -1,4 +1,7 @@
 package Graphics::Potrace::Raster;
+
+# ABSTRACT: raster representation for Graphics::Potrace
+
 use strict;
 use warnings;
 use English qw( -no_match_vars );
@@ -199,8 +202,9 @@ sub dwim_load {
 
 sub load {
    my $self = shift;
+   my $type = shift;
    $self = $self->new() unless ref $self;
-   $self->create_loader(@_)->load($self);
+   $self->create_loader($type, target => $self)->load(@_);
    return $self;
 }
 
@@ -211,20 +215,6 @@ sub create_loader {
    require $filename . '.pm';
    return $package->new(@parameters);
 }
-
-sub import_ascii {
-   my ($self, $figure) = @_;
-   $self->reset();
-   $figure =~ s/\A\n+|\n+\z//gmsx;
-   my @lines = split /\n/, $figure;
-   for my $j (0 .. $#lines) {
-      my @line = split //, $lines[$j];
-      for my $i (0 .. $#line) {
-         $self->set($i, $#lines - $j, ($line[$i] ne ' '));
-      }
-   } ## end for my $j (0 .. $#lines)
-   return $self;
-} ## end sub import_ascii
 
 sub trim {
    my ($self, $width, $height) = @_;
@@ -263,8 +253,202 @@ sub trim {
 sub trace {
    my $self = shift;
    require Graphics::Potrace;
-   return Graphics::Potrace::bitmap2vector($self, @_);
+   return Graphics::Potrace::raster2vectorial($self, @_);
 } ## end sub trace
 
 1;
 __END__
+
+=head1 SYNOPSIS
+
+   use Graphics::Potrace::Raster;
+   my $bitmap = Graphics::Potrace::Raster->new();
+   $bitmap->load(Ascii => filename => '/path/to/ascii.txt');
+   my $vectorial = $bitmap->trace();
+
+
+
+=head1 DESCRIPTION
+
+
+=head1 INTERFACE
+
+=head2 B<< bitmap >>
+
+   my $raw_bitmap = $raster->bitmap();
+
+Returns the raw bitmap as an array of integers whose bits
+have been properly arranged for being used by Potrace (the
+library).
+
+=head2 B<< clear >>
+
+   $raster->clear();
+
+Clear the raster to all blank pixels.
+
+=head2 B<< create_loader >>
+
+   my $loader = Graphics::Potrace::Raster->create_loader($type, @params);
+
+Creates a loader for the specific C<$type>, i.e. a class that is
+searched under C<Graphics::Potrace::Raster::$type>
+(see e.g. L<Graphics::Potrace::Raster::Ascii>). See
+L<Graphics::Potrace::Raster::Importer> for further information about what
+you can do with these importers.
+
+=head2 B<< dwim_load >>
+
+   my $bitmap = Graphics::Potrace->dwim_load($source);
+
+Tries to do the Right Thing (TM), which currently boils down
+to analysing the provided parameters like this:
+
+=over
+
+=item *
+
+if C<$source> is a simple scalar, has no newlines and can be
+mapped to an existing file, it is considered an Ascii file
+(see L<Graphics::Potrace::Raster::Ascii>) and loaded
+accordingly;
+
+=item *
+
+if C<$source> is a simple scalar containing newlines or that
+cannot be mapped onto an existing file, it is considered as
+straight data and loaded accordingly (again assuming an
+Ascii format);
+
+=item *
+
+if C<$source> is a glob it is used to load data as if they
+are in Ascii representation format;
+
+=item *
+
+if C<$source> is an array it is considered a sequence of
+parameters to be provided to C</load>.
+
+=back
+
+=head2 B<< dy >>
+
+   my $dy = $raster->dy();
+   $raster->dy($dy);
+
+Get (or set) the C<dy> parameter, needed by Potrace library.
+
+=head2 B<< get >>
+
+   my $value = $raster->get($x, $y);
+
+Get the value associated to the specified pixel.
+
+=head2 B<< height >>
+
+   my $height = $raster->height();
+   $raster->height($new_height);
+
+Accessor for raster's height. It performs trimming or enlargement
+where necessary.
+
+=head2 B<< load >>
+
+   $bitmap->load($type, $flavour, $info);
+
+Load the bitmap. C<$type> is the name of a helper loader type that is
+searched as class C<Graphics::Potrace::Raster::$type> (see
+e.g. L<Graphics::Potrace::Raster::Ascii>). C<$flavour> is an indication
+of what C<info> contains, see L<Graphics::Potrace::Raster::Importer> for
+details about the possible C<$flavour>/C<$info> possible associations.
+
+=head2 B<< mirror_vertical >>
+
+   $raster->mirror_vertical();
+
+Flip bitmap vertically.
+
+=head2 B<< new >>
+
+   my $raster = Graphics::Potrace::Raster->new();
+
+Constructor.
+
+=head2 B<< packed >>
+
+   my $hash = $raster->packed();
+
+Returns a packed representation of the raster, consisting of an
+anonymous hash containing fields useful for calling the proper
+tracing function from Potrace's library.
+
+=head2 B<< packed_bitmap >>
+
+   my $sequence = $raster->packed_bitmap();
+
+Returns a packed representation of the bitmap section of the whole
+raster, i.e. the binary representation used by Potrace's library.
+
+=head2 B<< real_bitmap >>
+
+   my $sequence = $raster->real_bitmap();
+
+Accessor to the low-level representation of the bitmap.
+
+=head2 B<< reset >>
+
+   $raster->reset();
+
+Reset the bitmap to an empty one.
+
+=head2 B<< reverse >>
+
+   $raster->reverse();
+
+Reverse the bitmap: all blanks will be turned to full and vice-versa.
+
+=head2 B<< set >>
+
+   $raster->set($x, $y);
+   $raster->set($x, $y, 1); # equivalent to the above, but explicit
+   $raster->set($x, $y, 0); # equivalent to $raster->unset(...)
+
+Set the value of the specific pixel to the provided value (or to 1
+if no value is provided).
+
+=head2 B<< trace >>
+
+   my $vectorial = $raster->trace(%options);
+   my $vectorial = $raster->trace($options);
+
+Get a vectorial representation of the raster image. This works in
+terms of L<Graphics::Potrace/raster2vectorial>, see there for additional
+info.
+
+=head2 B<< trim >>
+
+   $raster->trim();
+   $raster->trim($width);
+   $raster->trim($width, $height);
+   $raster->trim(undef, $height);
+
+Trim the bitmap according to the available data. A trimming width or
+height can be provided, otherwise the one already known for the raster
+will be used.
+
+=head2 B<< unset >>
+
+   $raster->unset($x, $y);
+
+Set the specific pixel to empty. Equivalent to calling:
+
+   $raster->set($x, $y, 0);
+
+=head2 B<< width >>
+
+   my $width = $raster->width();
+   $raster->width($width);
+
+Get/set the width of the raster. If explicitly set, it will be kept and
+trimming will happen, otherwise the raster will grow as necessary.

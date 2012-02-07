@@ -11,7 +11,7 @@ use Graphics::Potrace qw< trace >;
 
 my $vector = trace(
    raster => [
-      Ascii => text => '
+      Ascii => data => '
 
                            oo"""""""MM
                ooooooo  ooM"          Moo

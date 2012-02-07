@@ -9,27 +9,47 @@ use English qw< -no_match_vars >;
 
 use Moo;
 
-sub import {
+has _target => (
+   is        => 'rw',
+   isa       => sub { $_[0]->isa('Graphics::Potrace::Raster') },
+   lazy      => 1,
+   predicate => 'has_target',
+   clearer   => 'clear_target',
+   init_arg  => 'target',
+);
+
+sub target {
    my $self = shift;
-   open my $fh, '<', \{$_[0]};
+   return $self->_target(@_) if @_;
+   return $self->_target()   if $self->has_target();
+   require Graphics::Potrace::Raster;
+   return Graphics::Potrace::Raster->new();
+} ## end sub target
+
+sub load_data {
+   my $self = shift;
+   open my $fh, '<', \$_[0];
    return $self->load_handle($fh);
-}
+} ## end sub import
 
 sub load_handle {
    my ($self, $fh) = @_;
    local $/;
    binmode $fh, ':raw';
    my $contents = <$fh>;
-   return $self->import($contents);
-}
+   return $self->load_data($contents);
+} ## end sub load_handle
 
 sub load {
-   my ($self, $f) = @_;
-   return $self->import($$f) if ref($f) eq 'SCALAR';
-   return $self->load_handle($f) if ref($f);
-   open my $fh, '<:raw', $f or die "open('$f'): $OS_ERROR";
-   return $self->load_handle($fh);
-}
+   my ($self, $type, $f) = @_;
+   return $self->load_data($f)      if $type eq 'data';
+   return $self->load_handle($f) if $type eq 'fh';
+   if ($type eq 'file') {
+      open my $fh, '<:raw', $f or die "open('$f'): $OS_ERROR";
+      return $self->load_handle($fh);
+   }
+   croak "unknown load type $type";
+} ## end sub load
 
 1;
 __END__
@@ -40,7 +60,7 @@ This is a base class for building up raster importers. One example
 of using this base class is shipped directly in the distribution
 as L<Graphics::Potrace::Raster::Ascii>.
 
-You only need to override one of three methods: L</load_handle> or L</import>.
+You only need to override one of three methods: L</load_handle> or L</load_data>.
 
 In this class these two methods are both defined in terms of the other,
 so that you can really override only one of them and get the other one
@@ -48,22 +68,31 @@ for free.
 
 =head1 INTERFACE
 
-=head2 B<< import >>
+=head2 B<< clear_target >>
 
-   my $bitmap = $importer->import($scalar);
+Clears the currently set target raster (see L</target>).
+
+=head2 B<< has_target >>
+
+Checks whether the object has a target bitmap for load operations or not.
+See also L</target>.
+
+=head2 B<< load_data >>
+
+   my $bitmap = $importer->load_data($scalar);
 
 Import data from a scalar variable. The format the data inside the
 C<$scalar> depends on the particular derived class.
 
 =head2 B<< load >>
 
-   my $bitmap = $importer->load($scalar_ref);
-   my $bitmap = $importer->load($filename);
-   my $bitmap = $importer->load($filehandle);
+   my $bitmap = $importer->load(data => $scalar);
+   my $bitmap = $importer->load(file => $filename);
+   my $bitmap = $importer->load(fh => $filehandle);
 
 Import data from a scalar, a file or a filehandle. The format of the data
 in the file/filehandle depends on the derived class. This method
-leverages upon B</import> and L</load_handle>. In this way you can use
+leverages upon B</load_data> and L</load_handle>. In this way you can use
 one single method and decide what you want to pass in exactly.
 
 =head2 B<< load_handle >>
@@ -78,6 +107,15 @@ derived classes.
 
    my $i = Graphics::Potrace::Raster::Importer->new(%args);
 
-Constructor. There is no common parameter to be shared with derived
-classes, so this method might accept parameters only depending on
-the particular class.
+Constructor. The only common parameter that you can set is C<target>,
+corresponding to set L</target>.
+
+=head2 B<< target >>
+
+   my $raster = $importer->target();
+   $importer->target($raster);
+
+Quasi-accessor for setting the target bitmap for the import. This is
+a I<quasi>-accessor because if no target is currently defined (you can
+check it with C</has_target>) then a new one will be provided each time
+you call this method.
