@@ -56,13 +56,76 @@
     
 
     
-      <h2>Dependencies</h2>
-      <p>Moo and Potrace library</p>
-    
+      <h2>Synopsis</h2>
 
+<pre>
+# Step by step
+use Graphics::Potrace qw&lt; raster &gt;;
+my $raster = raster('
+..........................
+.......XXXXXXXXXXXXXXX....
+..XXXXXXXX.......XXXXXXX..
+....XXXXX.........XXXXXX..
+......XXXXXXXXXXXXXXX.....
+...XXXXXX........XXXXXXX..
+...XXXXXX........XXXXXXX..
+....XXXXXXXXXXXXXXXXXX....
+..........................
+');
+my $vector = $raster-&gt;trace();
+$vector-&gt;export(Svg =&gt; file =&gt; 'example.svg');
+$vector-&gt;export(Svg =&gt; file =&gt; \my $svg_dump);
+$vector-&gt;export(Svg =&gt; fh   =&gt; \*STDOUT);
+my $eps = $vector-&gt;render('Eps');
+
+# All in one facility
+use Graphics::Potrace qw&lt; trace &gt;;
+trace(
+   raster =&gt; '
+   ..........................
+   .......XXXXXXXXXXXXXXX....
+   ..XXXXXXXX.......XXXXXXX..
+   ....XXXXX.........XXXXXX..
+   ......XXXXXXXXXXXXXXX.....
+   ...XXXXXX........XXXXXXX..
+   ...XXXXXX........XXXXXXX..
+   ....XXXXXXXXXXXXXXXXXX....
+   ..........................
+   ',
+   vectorial =&gt; [ Svg =&gt; file =&gt; 'example.svg' ],
+);
+
+# There is a whole lot of DWIMmery in both raster() and trace().
+# Stick to Graphics::Potrace::Raster for finer control
+use Graphics::Potrace::Raster;
+my $raster = Graphics::Potrace::Raster-&gt;load(
+   Ascii =&gt; text =&gt; '
+   ..........................
+   .......XXXXXXXXXXXXXXX....
+   ..XXXXXXXX.......XXXXXXX..
+   ....XXXXX.........XXXXXX..
+   ......XXXXXXXXXXXXXXX.....
+   ...XXXXXX........XXXXXXX..
+   ...XXXXXX........XXXXXXX..
+   ....XXXXXXXXXXXXXXXXXX....
+   ..........................
+   ',
+);
+# you know what to do with $raster - see above!
+
+</pre>
     
-      <h2>Install</h2>
-      <p>Once on CPAN... just install the module! It will eventually be present at <a href="https://metacpan.org/release/Graphics-Potrace">Graphics::Potrace</a></p>
+      <h2>Download and Install</h2>
+      <p>Find it on CPAN - <a href="https://metacpan.org/release/Graphics-Potrace">Graphics::Potrace</a></p>
+
+    <p>
+      You can also download this project from <a href="https://github.com/">Github</a> in either
+      <a href="https://github.com/polettix/Graphics-Potrace/zipball/master">zip</a> or
+      <a href="https://github.com/polettix/Graphics-Potrace/tarball/master">tar</a> formats.
+    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+      by running:
+      <pre>$ git clone git://github.com/polettix/Graphics-Potrace</pre>
+    </p>
     
 
     
@@ -74,20 +137,6 @@
       <h2>Author</h2>
       <p>Flavio Poletti (flavio@polettix.it)<br/>      </p>
     
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="https://github.com/polettix/Graphics-Potrace/zipball/master">zip</a> or
-      <a href="https://github.com/polettix/Graphics-Potrace/tarball/master">tar</a> formats.
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/polettix/Graphics-Potrace</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="https://github.com/polettix/Graphics-Potrace">polettix/Graphics-Potrace</a>
-    </div>
 
   </div>
 
