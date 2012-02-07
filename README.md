@@ -60,7 +60,13 @@ SYNOPSIS
     );
     # you know what to do with $raster - see above!
 
+DESCRIPTION
+===========
 
+[Potrace](http://potrace.sourceforge.net/) is a program (and a library)
+by Peter Salinger for *Transforming bitmaps into vector graphics*, distributed
+under the GNU GPL. This distribution aims at binding the library from Perl for
+your fun and convenience.
 
 ALL THE REST
 ============
