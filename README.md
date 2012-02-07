@@ -68,7 +68,8 @@ ALL THE REST
 Want to know more? [See the module's documentation](http://metacpan.org/release/Graphics-Potrace) to figure out
 all the bells and whistles of this module!
 
-Want to contribute? [Fork it on GitHub](https://github.com/polettix/Graphics-Potrace).
+Want to contribute? [Fork it on GitHub](https://github.com/polettix/Graphics-Potrace) or at least
+[read the relevant page](http://polettix.github.com/Graphics-Potrace).
 
 That's all folks!
 
