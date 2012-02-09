@@ -27,7 +27,7 @@
     .download { float: right; }
     pre { background: #000; color: #fff; padding: 15px;}
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
+    .footer { text-align:center; margin-top:30px; font-style: italic; font-size: 80%; border-top: 1px dashed gray }
   </style>
 </head>
 
@@ -50,9 +50,10 @@
 
     
       <p><a href="http://potrace.sourceforge.net/">Potrace</a> is a program (and a library)
-    by Peter Salinger for <em>Transforming bitmaps into vector graphics</em>. This
+    by Peter Salinger for <em>Transforming bitmaps into vector graphics</em>, distributed under the
+    GNU General Public Licence. This
     distribution aims at binding the library from Perl for your fun and
-    convenience.</p>
+    convenience (guarantees not included!).</p>
     
 
     
@@ -115,29 +116,17 @@ my $raster = Graphics::Potrace::Raster-&gt;load(
 
 </pre>
     
-      <h2>Download and Install</h2>
-      <p>Find it on CPAN - <a href="https://metacpan.org/release/Graphics-Potrace">Graphics::Potrace</a></p>
-
-    <p>
-      You can also download this project from <a href="https://github.com/">Github</a> in either
-      <a href="https://github.com/polettix/Graphics-Potrace/zipball/master">zip</a> or
-      <a href="https://github.com/polettix/Graphics-Potrace/tarball/master">tar</a> formats.
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+      <h2>Where</h2>
+      <p>Find it on <a href="http://metacpan.org/">CPAN</a> - <a href="https://metacpan.org/release/Graphics-Potrace">Graphics::Potrace</a> - and on <a href="http://github.com/">Github</a> - <a href="https://github.com/polettix/Graphics-Potrace/">Graphics-Potrace</a>.
+    You can also clone the project with <a href="http://git-scm.com">Git</a>
       by running:
       <pre>$ git clone git://github.com/polettix/Graphics-Potrace</pre>
     </p>
     
+  </div>
 
-    
-      <h2>License</h2>
-      <p>The Artistic License 2.0</p>
-    
-
-    
-      <h2>Author</h2>
-      <p>Flavio Poletti (flavio@polettix.it)<br/>      </p>
-    
-
+  <div class="footer">
+      Graphics::Potrace is copyright 2012 by Flavio Poletti (polettix at cpan dot org), distributed under the <a href="http://www.perlfoundation.org/artistic_license_2_0">Artistic 2.0 license</a>.
   </div>
 
 </body>
