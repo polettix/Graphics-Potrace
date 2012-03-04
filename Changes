@@ -1,2 +1,3 @@
 {{$NEXT}}
+   - Checking for potrace executable before generating Makefile
    - Added README.md to the project
