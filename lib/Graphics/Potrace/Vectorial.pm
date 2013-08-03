@@ -60,6 +60,8 @@ sub create_exporter {
 1;
 __END__
 
+=encoding utf-8
+
 =head1 SYNOPSIS
 
    # See Graphics::Potrace for ways of obtaining a G::P::Vectorial

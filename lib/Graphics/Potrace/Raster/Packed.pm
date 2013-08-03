@@ -29,6 +29,8 @@ sub load_handle {
 1;
 __END__
 
+=encoding utf-8
+
 =head1 DESCRIPTION
 
 This class is an importer for L<Graphics::Potrace>. It derives from

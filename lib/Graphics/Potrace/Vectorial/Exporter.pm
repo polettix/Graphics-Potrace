@@ -94,6 +94,8 @@ sub save {
 1;
 __END__
 
+=encoding utf-8
+
 =head1 DESCRIPTION
 
 This is a base class for building up vector exporters. One example

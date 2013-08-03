@@ -68,6 +68,8 @@ sub _save_core {
 1;
 __END__
 
+=encoding utf-8
+
 =head1 DESCRIPTION
 
 L<Graphics::Potrace::Vectorial::Exporte> derived class to provide export
