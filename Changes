@@ -1,3 +1,5 @@
 {{$NEXT}}
+
+0.1.0_03  2012-03-04 01:11:20 Europe/Rome
    - Checking for potrace executable before generating Makefile
    - Added README.md to the project
