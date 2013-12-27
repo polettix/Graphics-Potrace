@@ -127,7 +127,7 @@ __END__
 =head1 DESCRIPTION
 
 Potrace (L<http://potrace.sourceforge.net/>) is a program (and a library)
-by Peter Salinger for I<Transforming bitmaps into vector graphics>. This
+by Peter Selinger for I<Transforming bitmaps into vector graphics>. This
 distribution aims at binding the library from Perl for your fun and
 convenience.
 
