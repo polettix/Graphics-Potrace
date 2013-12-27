@@ -1,4 +1,6 @@
 {{$NEXT}}
+   - got feedback from Peter Selinger about his surname
+   - bumped copyright notice to include 2013 too
 
 0.72      2013-08-03 20:10:30 Europe/Rome
    - Added one test on trace
