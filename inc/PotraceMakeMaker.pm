@@ -8,6 +8,16 @@ override _build_WriteMakefile_args => sub {
       %{super()},
       INC => '-I/opt/local/include',
       LIBS => ['-L/opt/local/lib -lpotrace'],
+      META_MERGE => {
+         'meta-spec' => { version => 2 },
+         resources => {
+            repository => {
+               type => 'git',
+               url  => 'https://github.com/polettix/Graphics-Potrace.git',
+               web  => 'https://github.com/polettix/Graphics-Potrace',
+            },
+         },
+      },
    };
 };
 
