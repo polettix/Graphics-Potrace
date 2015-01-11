@@ -1,6 +1,6 @@
 package Graphics::Potrace::Vectorial::Svg;
 
-# ABSTRACT: Encapsulated Postscript exporter for Graphics::Potrace
+# ABSTRACT: SVG exporter for Graphics::Potrace
 
 use strict;
 use Carp;
@@ -75,8 +75,8 @@ __END__
 
 =head1 DESCRIPTION
 
-L<Graphics::Potrace::Vectorial::Exporte> derived class to provide export
-facilities to Standard Vectorial Graphics.
+L<Graphics::Potrace::Vectorial::Exporter> derived class to provide export
+facilities to Scalable Vector Graphics.
 
 =head1 INTERFACE
 
