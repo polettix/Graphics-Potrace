@@ -1,4 +1,7 @@
 {{$NEXT}}
+   - no change to code, only to ancillary installation and
+     documentation files
+   - thanks to Ben Bullock for documentation cleanup hints
 
 0.73      2013-12-27 04:42:38 Europe/Rome
    - got feedback from Peter Selinger about his surname
