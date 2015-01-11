@@ -6,8 +6,11 @@ extends 'Dist::Zilla::Plugin::MakeMaker::Awesome';
 override _build_WriteMakefile_args => sub {
    return {
       %{super()},
-      INC => '-I/opt/local/include',
-      LIBS => ['-L/opt/local/lib -lpotrace'],
+      INC => '',
+      LIBS => ['-lpotrace'],
+      CONFIGURE_REQUIRES => {
+         'Devel::CheckLib' => '1.01',
+      },
       META_MERGE => {
          'meta-spec' => { version => 2 },
          resources => {
@@ -31,16 +34,8 @@ use warnings;
 use ExtUtils::MakeMaker {{ $eumm_version }};
 {{ $share_dir_block[0] }}
 
-if (open my $olderr, '>&', \*STDERR) {
-   close STDERR;
-   my $exists = open my $fh, '|-', 'potrace';
-   close $fh;
-   open STDERR, '>&', $olderr;
-   if (! $exists) {
-      warn "potrace not found, avoiding generating Makefile\n";
-      exit 0;
-   }
-}
+use Devel::CheckLib;
+check_lib_or_exit( lib => 'potrace', header => 'potracelib.h' );
 
 my {{ $WriteMakefileArgs }}
 
