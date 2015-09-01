@@ -2,8 +2,8 @@
 
 use Test::More;
 
-plan skip_all => "Test::Pod::Coverage - AUTHOR_TEST not set"
-  unless $ENV{AUTHOR_TEST};
+plan skip_all => "Test::Pod::Coverage - AUTHOR_TESTING not set"
+  unless $ENV{AUTHOR_TESTING};
 
 eval "use Test::Pod::Coverage 1.04";
 plan skip_all =>
