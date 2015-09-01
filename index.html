@@ -48,15 +48,13 @@
       Perl bindings for Potrace
     </div>
 
-    
+
       <p><a href="http://potrace.sourceforge.net/">Potrace</a> is a program (and a library)
     by Peter Salinger for <em>Transforming bitmaps into vector graphics</em>, distributed under the
     GNU General Public Licence. This
     distribution aims at binding the library from Perl for your fun and
     convenience (guarantees not included!).</p>
-    
 
-    
       <h2>Synopsis</h2>
 
 <pre>
@@ -77,6 +75,8 @@ my $vector = $raster-&gt;trace();
 $vector-&gt;export(Svg =&gt; file =&gt; 'example.svg');
 $vector-&gt;export(Svg =&gt; file =&gt; \my $svg_dump);
 $vector-&gt;export(Svg =&gt; fh   =&gt; \*STDOUT);
+
+# There is a simpler way to get a dump in a scalar
 my $eps = $vector-&gt;render('Eps');
 
 # All in one facility
