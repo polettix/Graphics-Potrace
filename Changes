@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+0.75      2015-09-01 13:29:21+02:00 Europe/Rome
    - created alias "text" for loading data from scalar, makes
      example in documentation work
    - irrelevant change to make dzil happy about setting
