@@ -42,7 +42,7 @@ sub load_handle {
 
 sub load {
    my ($self, $type, $f) = @_;
-   return $self->load_data($f)      if $type eq 'data';
+   return $self->load_data($f)   if $type =~ /\A(?:data|text)\z/mxs;
    return $self->load_handle($f) if $type eq 'fh';
    if ($type eq 'file') {
       open my $fh, '<:raw', $f or die "open('$f'): $OS_ERROR";
