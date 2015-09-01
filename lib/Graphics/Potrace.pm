@@ -18,9 +18,7 @@ use Exporter qw( import );
 }
 
 use XSLoader;
-our $VERSION;
-$VERSION ||= '0.1.0';
-XSLoader::load('Graphics::Potrace', $VERSION);
+XSLoader::load('Graphics::Potrace', $Graphics::Potrace::VERSION || '0.1');
 
 sub raster {
    return $_[0]    # return if already a raster... it might happen :)
