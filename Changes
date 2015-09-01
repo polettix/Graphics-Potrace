@@ -1,4 +1,6 @@
 {{$NEXT}}
+   - created alias "text" for loading data from scalar, makes
+     example in documentation work
 
 0.74      2015-01-11 19:10:13 Europe/Rome
    - no change to code, only to ancillary installation and
