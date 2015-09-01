@@ -87,7 +87,9 @@ __END__
    $vector->export(Svg => file => 'example.svg');
    $vector->export(Svg => file => \my $svg_dump);
    $vector->export(Svg => fh   => \*STDOUT);
-   my $eps = $vector->render('Eps');
+
+   # There is a simpler way to get a dump in a scalar
+   my $eps_dump = $vector->render('Eps');
 
    # All in one facility
    use Graphics::Potrace qw< trace >;
