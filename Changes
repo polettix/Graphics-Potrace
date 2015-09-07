@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+Changes for Graphics::Potrace
    - Dist::Zilla cosmetics
 
 0.75      2015-09-01 13:29:21+02:00 Europe/Rome
