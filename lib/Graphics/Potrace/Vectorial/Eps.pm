@@ -10,7 +10,7 @@ use Moo;
 extends 'Graphics::Potrace::Vectorial::Exporter';
 
 sub save {
-   my ($self, $vector) = @_;
+   my $self = shift;
    my $fh = $self->fh();
 
    # Header
