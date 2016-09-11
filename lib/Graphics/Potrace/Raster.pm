@@ -8,11 +8,12 @@ use English qw( -no_match_vars );
 use Carp;
 use Config;
 
-my ($INTSIZE, $N);
+my ($LONGSIZE, $N, $PACK_TEMPLATE);
 
 BEGIN {
-   $INTSIZE = $Config{intsize};
-   $N       = $INTSIZE * 8;
+   $LONGSIZE      = $Config{longsize};
+   $N             = $LONGSIZE * 8;
+   $PACK_TEMPLATE = $LONGSIZE == 8 ? 'Q<*' : 'I*';
 }
 
 sub _index_and_mask {
@@ -56,7 +57,7 @@ sub dy {
    $self->{_dy} = shift if @_;
    return $self->{_dy} if exists $self->{_dy};
    my $width = $self->width();
-   return int($width / $N) + (($width % $N) ? 1 : 0);
+   return int(( $width + $N - 1 ) / $N);
 } ## end sub dy
 
 sub real_bitmap {
@@ -105,7 +106,7 @@ sub bitmap {
 
 sub packed_bitmap {
    my $self = shift;
-   return scalar pack 'I*', map { @$_ } $self->bitmap(@_);
+   return scalar pack $PACK_TEMPLATE, map { @$_ } $self->bitmap(@_);
 }
 
 sub packed {
