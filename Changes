@@ -1,7 +1,11 @@
-{{$NEXT}}
-
 Changes for Graphics::Potrace
+
+{{$NEXT}}
    - Dist::Zilla cosmetics
+   - Fix bug showing up in Mac OS X related to integer/long sizes
+     (courtesy Boris Zentner)
+     https://github.com/polettix/Graphics-Potrace/pull/3
+   - Fix bug in EPS generator (courtesy Boris Zentner)
 
 0.75      2015-09-01 13:29:21+02:00 Europe/Rome
    - created alias "text" for loading data from scalar, makes
