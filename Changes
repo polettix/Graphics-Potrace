@@ -1,6 +1,10 @@
 Changes for Graphics::Potrace
 
 {{$NEXT}}
+
+Changes for Graphics::Potrace
+
+0.76      2016-09-12 22:14:05+02:00 Europe/Rome
    - Dist::Zilla cosmetics
    - Fix bug showing up in Mac OS X related to integer/long sizes
      (courtesy Boris Zentner)
